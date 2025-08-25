@@ -47,6 +47,14 @@
         android:backgroundTint="#F05D65"
         android:text="Source Code" />
 
+    <Button
+        android:id="@+id/about_imprint_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#7ec2c6"
+        android:text="Imprint" />
+
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="10dp" />

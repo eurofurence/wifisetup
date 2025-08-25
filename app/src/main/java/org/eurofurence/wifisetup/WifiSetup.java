@@ -406,6 +406,14 @@ public class WifiSetup extends Activity {
                         startActivity(intent);
                     } });
 
+                Button import_button = customLayout.findViewById(R.id.about_imprint_button);
+
+                import_button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.about_imprint_url)));
+                        startActivity(intent);
+                    } });
+
                 TextView version_textview = customLayout.findViewById(R.id.about_version_id);
                 version_textview.setText(pi.packageName + "\n" + pi.versionCode);
 
