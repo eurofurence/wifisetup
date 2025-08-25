@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "org.eurofurence.wifisetup"
-        minSdkVersion 18
+        minSdkVersion 23
         targetSdkVersion 33
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

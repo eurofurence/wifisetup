@@ -5,7 +5,7 @@
 	<string name="TITLE_LOGON">Please logon</string>
 	<string name="Username">username@realm</string>
 	<string name="Password">password</string>
-	<string name="Logon">Create connection entry</string>
+	<string name="Logon">Connect to WiFi</string>
 
 	<string name="fediverse">https://chaos.social/@c3noc</string>
 
@@ -18,6 +18,9 @@
 	<string name="ABOUT_TITLE">About</string>
 	<string name="EXIT_TITLE">Exit</string>
 		
-	<string name="ABOUT_CONTENT">This small helper app creates a Wifi connection entry for the CCC/EMF/MCH2022 networks.  It configures the correct SSL CA and subject name match, making it a little more secure than a hand-created entry.</string>
+	<string name="ABOUT_CONTENT">This small helper app creates a Wifi connection entry for the CCC/EMF/EF/... networks.  It configures the correct SSL CA and subject name match, making it a little more secure than a hand-created entry.
+
+	</string>
 	<string name="LOGO">Eurofurence Logo</string>
+    <string name="about_source_url">https://github.com/eurofurence/wifisetup</string>
 </resources>
