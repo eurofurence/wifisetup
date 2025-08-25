@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">38C3 Wifi Setup</string>
+	<string name="app_name">Eurofurence Wifi Setup</string>
 
 	<string name="TITLE_LOGON">Please logon</string>
 	<string name="Username">username@realm</string>
@@ -19,5 +19,5 @@
 	<string name="EXIT_TITLE">Exit</string>
 		
 	<string name="ABOUT_CONTENT">This small helper app creates a Wifi connection entry for the CCC/EMF/MCH2022 networks.  It configures the correct SSL CA and subject name match, making it a little more secure than a hand-created entry.</string>
-	<string name="LOGO">Chaos Communication Camp Logo</string>
+	<string name="LOGO">Eurofurence Logo</string>
 </resources>

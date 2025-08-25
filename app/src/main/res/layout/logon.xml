@@ -24,17 +24,17 @@
         android:id="@+id/logo"
         android:layout_width="fill_parent"
 		android:layout_height="200dp"
-		android:contentDescription="38C3 logo"
+		android:contentDescription="@string/LOGO"
 		android:padding="0dp"
 		android:scaleType="fitCenter"
-		android:src="@drawable/ccc38c3logo" />
+		android:src="@drawable/ef29c" />
 
-	<TextView
+	<!--<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="15dp"
 		android:autoLink="web"
-		android:text="@string/fediverse"/>
+		android:text="@string/fediverse"/>-->
 
 	<!--<CheckBox android:id="@+id/check5g"
 		android:layout_width="wrap_content"
