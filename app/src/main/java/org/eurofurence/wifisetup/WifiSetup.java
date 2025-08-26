@@ -415,7 +415,7 @@ public class WifiSetup extends Activity {
                     } });
 
                 TextView version_textview = customLayout.findViewById(R.id.about_version_id);
-                version_textview.setText(pi.packageName + "\n" + pi.versionCode);
+                version_textview.setText(pi.packageName + "\n" + pi.versionName + "(" + pi.versionCode + ")");
 
 
 

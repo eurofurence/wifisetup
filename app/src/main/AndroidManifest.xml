@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="auto"
-    android:versionCode="20250825"
-    android:versionName="20250825">
+    android:installLocation="auto">
 
     <uses-feature
         android:name="android.hardware.touchscreen"

@@ -3,12 +3,32 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 36
 
+    def getCommitCount = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--count', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim().toInteger()
+    }
+
+    def getCommitName = { ->
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+
     defaultConfig {
         applicationId "org.eurofurence.wifisetup"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdkVersion 24
+        targetSdkVersion 35
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        versionCode getCommitCount()
+        versionName getCommitName()
     }
 
     buildTypes {
