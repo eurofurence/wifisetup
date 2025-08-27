@@ -87,8 +87,8 @@ public class WifiSetup extends Activity {
     private static final String INT_PRIVATE_KEY_ID_PREFIX = "USRPKEY_";
     private static final String INT_CLIENT_CERT_PREFIX = INT_KEYSTORE_URI + "USRCERT_";
     private Handler mHandler = new Handler();
-    private EditText username;
-    private EditText password;
+    private EditText wpa_identity;
+    private EditText wpa_password;
     private CheckBox check5g;
     private Button btn;
     private String subject_match;
@@ -99,8 +99,8 @@ public class WifiSetup extends Activity {
     private boolean busy = false;
     private Toast toast = null;
     private int logoclicks = 0;
-    private String s_username;
-    private String s_password;
+    private String identity;
+    private String password;
     private ViewFlipper flipper;
     Profile selected_profile;
 
@@ -131,8 +131,8 @@ public class WifiSetup extends Activity {
         setContentView(R.layout.logon);
 
         flipper = findViewById(R.id.viewflipper);
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        wpa_identity = findViewById(R.id.wpa_identity);
+        wpa_password = findViewById(R.id.wpa_password);
 
         Spinner spinner = findViewById(R.id.profile);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -222,37 +222,33 @@ public class WifiSetup extends Activity {
         realm = "";
         switch (selected_profile) {
             case PROFILE_UNFILTERED:
-                s_username = "public";
-                s_password = "public";
+                identity = "public";
+                password = "public";
                 break;
             case PROFILE_SITEONLY:
-                s_username = "event";
-                s_password = "event";
+                identity = "event";
+                password = "event";
                 break;
             case PROFILE_PROTECTME:
-                s_username = "eurofurence";
-                s_password = "eurofurence";
+                identity = "eurofurence";
+                password = "eurofurence";
                 break;
             case PROFILE_SPECIAL:
-                s_username = username.getText().toString();
-                s_password = password.getText().toString();
-                if (s_username.contains("@")) {
-                    int idx = s_username.indexOf("@");
-                    realm = s_username.substring(idx);
-                }
+                identity = wpa_identity.getText().toString();
+                password = wpa_password.getText().toString();
                 break;
         }
-        StoreWifiProfile(ssid, subject_match, altsubject_match, s_username, s_password);
+        StoreWifiProfile(ssid, subject_match, altsubject_match, identity, password);
     }
 
-    void StoreWifiProfile(String ssid, String subject_match, String altsubject_match, String s_username, String s_password) {
+    void StoreWifiProfile(String ssid, String subject_match, String altsubject_match, String identity, String password) {
         // Enterprise Settings
         HashMap<String, String> configMap = new HashMap<>();
         configMap.put(INT_SUBJECT_MATCH, subject_match);
         configMap.put(INT_ALTSUBJECT_MATCH, altsubject_match);
-        configMap.put(INT_ANONYMOUS_IDENTITY, "anonymous" + realm);
-        configMap.put(INT_IDENTITY, s_username);
-        configMap.put(INT_PASSWORD, s_password);
+        configMap.put(INT_ANONYMOUS_IDENTITY, "anonymous");
+        configMap.put(INT_IDENTITY, identity);
+        configMap.put(INT_PASSWORD, password);
         configMap.put(INT_EAP, "TTLS");
         configMap.put(INT_PHASE2, "auth=PAP");
         configMap.put(INT_ENGINE, "0");
@@ -359,8 +355,8 @@ public class WifiSetup extends Activity {
             enterpriseConfig.setEapMethod(Eap.TTLS);
 
             enterpriseConfig.setCaCertificate(caCert);
-            enterpriseConfig.setIdentity(s_username);
-            enterpriseConfig.setPassword(s_password);
+            enterpriseConfig.setIdentity(identity);
+            enterpriseConfig.setPassword(password);
             enterpriseConfig.setSubjectMatch(configMap.get(INT_SUBJECT_MATCH));
             enterpriseConfig.setAltSubjectMatch(configMap.get(INT_ALTSUBJECT_MATCH));
 

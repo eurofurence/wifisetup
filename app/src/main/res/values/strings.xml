@@ -3,8 +3,8 @@
 	<string name="app_name">Eurofurence Wifi Setup</string>
 
 	<string name="TITLE_LOGON">Please logon</string>
-	<string name="Username">username@realm</string>
-	<string name="Password">password</string>
+	<string name="wpa_identity_hint">Access ID</string>
+	<string name="wpa_password_hint">Password</string>
 	<string name="Logon">Connect to WiFi</string>
 
 	<string name="fediverse">https://chaos.social/@c3noc</string>

@@ -78,25 +78,25 @@
 				android:layout_marginRight="5dp"
 				android:gravity="center_horizontal|top"
 				android:orientation="vertical"
-				android:visibility="visible">
+				android:visibility="gone">
 
 				<EditText
-					android:id="@+id/username"
-					android:layout_width="match_parent"
-					android:layout_height="48dp"
-					android:layout_marginTop="15dp"
-					android:ems="10"
-					android:hint="@string/Username"
-					android:inputType="textEmailAddress"
-					android:padding="5dp"></EditText>
-
-				<EditText
-					android:id="@+id/password"
+					android:id="@+id/wpa_identity"
 					android:layout_width="match_parent"
 					android:layout_height="48dp"
 					android:layout_marginTop="5dp"
 					android:ems="10"
-					android:hint="@string/Password"
+					android:hint="@string/wpa_identity_hint"
+					android:inputType="text"
+					android:padding="5dp" />
+
+				<EditText
+					android:id="@+id/wpa_password"
+					android:layout_width="match_parent"
+					android:layout_height="48dp"
+					android:layout_marginTop="5dp"
+					android:ems="10"
+					android:hint="@string/wpa_password_hint"
 					android:inputType="textPassword"
 					android:padding="5dp" />
 			</LinearLayout>

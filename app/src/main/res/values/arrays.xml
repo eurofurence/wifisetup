@@ -4,7 +4,7 @@
         <item>Default = outbound traffic only</item>
         <item>Public = full inbound/outbound</item>
         <item>Event = outbound only, inbound from event</item>
-        <item>I am special = custom username/password</item>
+        <item>I am special = custom settings</item>
     </string-array>
 
 </resources>
