@@ -26,7 +26,7 @@
 				android:contentDescription="@string/LOGO"
 				android:padding="0dp"
 				android:scaleType="fitCenter"
-				android:src="@drawable/ef29c" />
+				android:src="@drawable/event_logo" />
 
 			<!--<TextView
 		android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
 				android:id="@+id/button1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:backgroundTint="#F05D65"
+				android:backgroundTint="#0A5953"
 				android:text="@string/Logon" />
 
 			<Space

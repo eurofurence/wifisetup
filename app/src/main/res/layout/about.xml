@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:contentDescription="@string/LOGO"
-        android:src="@drawable/planet_c"
+        android:src="@drawable/event_logo"
         android:visibility="visible" />
 
     <Space
@@ -44,7 +44,7 @@
         android:id="@+id/about_source_code_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#F05D65"
+        android:backgroundTint="#0A5953"
         android:text="Source Code" />
 
     <Button
