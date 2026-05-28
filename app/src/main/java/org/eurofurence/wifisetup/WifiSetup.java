@@ -46,10 +46,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONObject;
 import java.io.InputStream;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -124,6 +130,35 @@ public class WifiSetup extends Activity {
         toast.show();
     }
 
+    // Download remote configuration to update local defaults
+    private void downloadConfig(String url) {
+        RequestQueue volleyQueue = Volley.newRequestQueue(WifiSetup.this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, url, null,
+                // success lambda
+                (Response.Listener<JSONObject>) response -> {
+                    try {
+                        String resp_version = response.getString("version");
+                        TextView update_time = (TextView) findViewById(R.id.UpdateTime);
+                        update_time.setText("Config: " + resp_version + " (Online)");
+
+                        // Do the rest of the parsing and setting
+                        toastText("Config updated");
+                    } catch (Exception ignored) {
+                        toastText("Error while applying updated config");
+                    }
+                },
+                // failure lambda
+                (Response.ErrorListener) error -> {
+                    toastText("Could not reach config server or response invalid");
+                }
+        );
+
+        volleyQueue.add(jsonObjectRequest);
+    }
+
+
     // Called when the activity is first created.
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,6 +168,8 @@ public class WifiSetup extends Activity {
         flipper = findViewById(R.id.viewflipper);
         wpa_identity = findViewById(R.id.wpa_identity);
         wpa_password = findViewById(R.id.wpa_password);
+
+        downloadConfig("https://wifi.onsite.eurofurence.org/config.json");
 
         Spinner spinner = findViewById(R.id.profile);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
