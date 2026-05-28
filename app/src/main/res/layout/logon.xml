@@ -5,12 +5,14 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="10dp"
+	android:layout_marginTop="?attr/actionBarSize"
 	tools:context=".WifiSetup">
 
 	<ScrollView
 		android:id="@+id/FirstView"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:layout_marginTop="?attr/actionBarSize">
 
 		<LinearLayout
 			android:id="@+id/logonLayout"

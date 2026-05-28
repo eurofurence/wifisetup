@@ -22,7 +22,7 @@
             android:name="org.eurofurence.wifisetup.WifiSetup"
             android:exported="true"
             android:label="@string/app_short_name"
-            android:theme="@android:style/Theme.DeviceDefault">
+            android:theme="@style/TransparentDayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

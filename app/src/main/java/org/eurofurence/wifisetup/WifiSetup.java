@@ -47,6 +47,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import java.io.InputStream;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -63,7 +66,7 @@ enum Profile {
     PROFILE_SPECIAL
 }
 
-public class WifiSetup extends Activity {
+public class WifiSetup extends AppCompatActivity {
     protected static final int SHOW_PREFERENCES = 0;
     // FIXME This should be a configuration setting somehow
     private static final String INT_EAP = "eap";
@@ -133,6 +136,8 @@ public class WifiSetup extends Activity {
         flipper = findViewById(R.id.viewflipper);
         wpa_identity = findViewById(R.id.wpa_identity);
         wpa_password = findViewById(R.id.wpa_password);
+
+        getSupportActionBar().show();
 
         Spinner spinner = findViewById(R.id.profile);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
