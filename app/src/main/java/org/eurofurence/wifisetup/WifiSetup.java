@@ -137,6 +137,30 @@ public class WifiSetup extends AppCompatActivity {
         flipper = findViewById(R.id.viewflipper);
         wpa_identity = findViewById(R.id.wpa_identity);
         wpa_password = findViewById(R.id.wpa_password);
+		
+		Intent intent = getIntent();
+        Uri data = intent.getData();
+        if(data != null) {
+            String deeplink_id = data.getQueryParameter("id");
+            String deeplink_pw = data.getQueryParameter("pw");
+            if(deeplink_id != null && deeplink_pw != null) {
+                wpa_identity.setText(deeplink_id);
+                wpa_password.setText(deeplink_pw);
+                selected_profile = Profile.PROFILE_SPECIAL;
+                View logindata = findViewById(R.id.logindata);
+                logindata.setVisibility(View.VISIBLE);
+                toastText("Configuration read from link :)");
+                try {
+                    saveWifiConfig();
+                    resultStatus(true, "You should now have a wifi connection entry with correct security settings and certificate verification.\n\nMake sure to actually use it!");
+                } catch (RuntimeException e) {
+                    resultStatus(false, "Something went wrong: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         getSupportActionBar().show();
         ViewCompat.setOnApplyWindowInsetsListener(flipper, (v, windowInsets) -> {
@@ -454,9 +478,9 @@ public class WifiSetup extends AppCompatActivity {
                 else
                     res_title.setText("ERROR!");
 
-                if (toast != null)
+                /* if (toast != null)
                     toast.cancel();
-				/* toast = Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG);
+				toast = Toast.makeText(getBaseContext(), text, Toast.LENGTH_LONG);
 				toast.show(); */
                 flipper.showNext();
             }
