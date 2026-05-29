@@ -46,11 +46,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import io.github.g00fy2.quickie.QRResult;
+import io.github.g00fy2.quickie.QRResult.QRError;
+import io.github.g00fy2.quickie.QRResult.QRMissingPermission;
+import io.github.g00fy2.quickie.QRResult.QRSuccess;
+import io.github.g00fy2.quickie.QRResult.QRUserCanceled;
+import io.github.g00fy2.quickie.ScanCustomCode;
+import io.github.g00fy2.quickie.config.BarcodeFormat;
+import io.github.g00fy2.quickie.config.ScannerConfig;
+import io.github.g00fy2.quickie.content.QRContent;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import java.io.InputStream;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -95,6 +105,7 @@ public class WifiSetup extends AppCompatActivity {
     private EditText wpa_password;
     private CheckBox check5g;
     private Button btn;
+    private Button qr_btn;
     private String subject_match;
     private String altsubject_match;
 
@@ -128,6 +139,54 @@ public class WifiSetup extends AppCompatActivity {
         toast.show();
     }
 
+    private final ActivityResultLauncher scanQrCodeLauncher = this.registerForActivityResult(new ScanCustomCode(),
+            (ActivityResultCallback<QRResult>) result -> onQrCodeScannerResponse(result));
+
+    private void onQrCodeScannerResponse(QRResult result) {
+        if(result instanceof QRError) {
+            toastText("Error reading QR-code");
+            return;
+        }
+        if(result instanceof QRMissingPermission) {
+            toastText("Missing camera permission");
+            return;
+        }
+        if(result instanceof QRUserCanceled) {
+            toastText("Canceled, no changes made");
+            return;
+        }
+
+        QRSuccess success = (QRSuccess)result;
+        QRContent content = success.getContent();
+        Uri data = Uri.parse(content.getRawValue());
+
+        autoconnectUri(data, "Configuration read from QR :)");
+    }
+
+    private void autoconnectUri(Uri data, String toastNotif) {
+        if(data != null) {
+            String deeplink_id = data.getQueryParameter("id");
+            String deeplink_pw = data.getQueryParameter("pw");
+            if (deeplink_id != null && deeplink_pw != null) {
+                wpa_identity.setText(deeplink_id);
+                wpa_password.setText(deeplink_pw);
+                selected_profile = Profile.PROFILE_SPECIAL;
+                View logindata = findViewById(R.id.logindata);
+                logindata.setVisibility(View.VISIBLE);
+                toastText(toastNotif);
+                try {
+                    saveWifiConfig();
+                    resultStatus(true, "You should now have a wifi connection entry with correct security settings and certificate verification.\n\nMake sure to actually use it!");
+                } catch (RuntimeException e) {
+                    resultStatus(false, "Something went wrong: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     // Called when the activity is first created.
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,27 +199,7 @@ public class WifiSetup extends AppCompatActivity {
 		
 		Intent intent = getIntent();
         Uri data = intent.getData();
-        if(data != null) {
-            String deeplink_id = data.getQueryParameter("id");
-            String deeplink_pw = data.getQueryParameter("pw");
-            if(deeplink_id != null && deeplink_pw != null) {
-                wpa_identity.setText(deeplink_id);
-                wpa_password.setText(deeplink_pw);
-                selected_profile = Profile.PROFILE_SPECIAL;
-                View logindata = findViewById(R.id.logindata);
-                logindata.setVisibility(View.VISIBLE);
-                toastText("Configuration read from link :)");
-                try {
-                    saveWifiConfig();
-                    resultStatus(true, "You should now have a wifi connection entry with correct security settings and certificate verification.\n\nMake sure to actually use it!");
-                } catch (RuntimeException e) {
-                    resultStatus(false, "Something went wrong: " + e.getMessage());
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        autoconnectUri(data, "Configuration read from link :)");
 
         getSupportActionBar().show();
         ViewCompat.setOnApplyWindowInsetsListener(flipper, (v, windowInsets) -> {
@@ -172,6 +211,21 @@ public class WifiSetup extends AppCompatActivity {
             mlp.rightMargin = insets.right;
             v.setLayoutParams(mlp);
             return WindowInsetsCompat.CONSUMED;
+        });
+
+        ScannerConfig.Builder configBuilder = new ScannerConfig.Builder();
+
+        qr_btn = findViewById(R.id.button2);
+        qr_btn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View _v) {
+                scanQrCodeLauncher.launch(configBuilder
+                        .setBarcodeFormats(Arrays.asList(BarcodeFormat.FORMAT_QR_CODE))
+                        .setOverlayStringRes(R.string.qr_overlay_text)
+                        .setHapticSuccessFeedback(true)
+                        .setShowTorchToggle(true)
+                        .setShowCloseButton(true)
+                        .build());
+            }
         });
 
         Spinner spinner = findViewById(R.id.profile);
