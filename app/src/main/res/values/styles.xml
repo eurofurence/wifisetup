@@ -2,9 +2,10 @@
 <resources>
     <style name="TransparentDayNight" parent="Theme.MaterialComponents.DayNight">
         <item name="android:actionBarStyle">@style/ActionBarTransparentStyle</item>
+        <item name="actionBarStyle">@style/ActionBarTransparentStyle</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimary">#0A5953</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -12,5 +13,8 @@
 
     <style name="ActionBarTransparentStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
 </resources>
