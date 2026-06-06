@@ -1,0 +1,43 @@
+name: Build Debug App Bundle
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+      - '!master'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Decode Keystore
+        run: echo '${{ secrets.SIGNING_STORE_FILE_CONTENT }}' | base64 -d > ${{ vars.SIGNING_STORE_FILE_PATH }}
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v5.2.0
+        with:
+          distribution: 'temurin'
+          java-version: '23'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: build debug
+        run: ./gradlew :app:assembleDebug :app:assembleDebugUnitTest :app:assembleDebugAndroidTest
+        env:
+          SIGNING_STORE_FILE_PATH: ${{ vars.SIGNING_STORE_FILE_PATH }}
+          SIGNING_KEY_ALIAS: ${{ vars.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Upload
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: Build Artifacts
+          path: app/build/outputs/
