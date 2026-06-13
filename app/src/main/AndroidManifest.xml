@@ -34,7 +34,7 @@
                 <data
                     android:scheme="https"
                     android:host="wifi.onsite.eurofurence.org"
-                    android:pathPrefix="/connect" />
+                    android:pathPrefix="/" />
             </intent-filter>
         </activity>
     </application>
