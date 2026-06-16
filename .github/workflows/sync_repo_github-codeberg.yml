@@ -1,0 +1,23 @@
+name: Repo Sync (GitHub -> Codeberg)
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch: # Allow manual dispatch
+  schedule:
+    - cron: "5 */8 * * *"
+
+jobs:
+  sync-repo-to-codeberg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: "Sync/Mirror repo"
+        uses: scientress/mirror-action@master
+        with:
+          REMOTE: "ssh://git@codeberg.org/${{ vars.CODEBERG_REPO }}.git"
+          GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
+          GIT_SSH_KNOWN_HOSTS: ${{ secrets.CODEBERG_SSH_KNOWN_HOSTS }}
